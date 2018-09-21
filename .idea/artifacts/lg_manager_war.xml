@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="lg-manager:war">
+    <output-path>$PROJECT_DIR$/lg-manager/target</output-path>
+    <root id="archive" name="lg-manager-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="lg-manager:war exploded" />
+    </root>
+  </artifact>
+</component>

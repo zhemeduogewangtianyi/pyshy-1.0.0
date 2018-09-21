@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .carousel-inner img {
+            width:100%;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+    <link rel="shortcut icon" href="media/images/9.png">
+    <link href="/media/css/bootstrap.css" rel="stylesheet">
+    <link href="/media/layer/theme/default/layer.css" rel="stylesheet">
+    <!-- 引入bootstrap-table样式 -->
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <script src="/media/js/jquery-1.11.1.js" type="text/javascript"></script>
+    <script src="/media/js/bootstrap.js"></script>
+    <script src="/media/layui/layui.js"></script>
+    <script src="/media/layer/layer.js"></script>
+    <!-- bootstrap-table.min.js -->
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <!-- 引入中文语言包 -->
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- voe -->
+    <script src="/media/js/Vue-2.5.17.js"></script>
+
+
+</head>
+<body>
+
+<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post">
+    <div class="markdown_views">
+        <h1 id="java-tcp-抓包简单示例"><a name="t0"></a>Java TCP 抓包简单示例</h1>
+
+        <p>由于目前网上没有一篇能真正方便读者操作的此类文章，本文对此通过示例做个简单介绍。</p>
+
+
+
+        <h2 id="缘起"><a name="t1"></a>缘起</h2>
+
+        <p>有一天本来在看头条，然后看到一则游戏的广告，看画面可能是我喜欢的建造类型（纪元1404，卡特尔一类）的游戏，就下载玩了。由于同时间我在看《网络是怎样连接的》，所以就在想如何通过抓包获取游戏中的地图数据。</p>
+
+        <blockquote>
+            <p>前两张图是游戏截图，暴露了个人坐标，和三体中暴露地球坐标一样危险。</p>
+
+            <p>第3张图是最近刚看过的一本书，是一本很详细介绍网络连接的书，但不是TCP抓包方面的书。</p>
+        </blockquote>
+
+        <p>抓包过程中发现地图数据很难分析，但是世界对话却很简单，因此就开始分析对话，分析出来后，就想着怎么写个程序来获取这些数据呢，网上搜了一些例子，都是比较早的，而且64位支持的不是很好，所以就有了本文。</p>
+
+        <h2 id="准备工作"><a name="t2"></a>准备工作</h2>
+
+        <p>由于我很早之前安装 Wireshark 的时候安装过 winpcap，所以没有注意这个软件的兼容性，下载地址如下：</p>
+
+        <blockquote>
+            <p><a href="https://www.winpcap.org/" rel="nofollow" target="_blank">https://www.winpcap.org/</a></p>
+
+            <p>Windows 必须安装的一个软件，其他工具都是基于 winpcap 的。</p>
+        </blockquote>
+
+        <p>现在网上能查到和 Java 抓包相关的基本都是 <strong>jPcap</strong>，由于找不到版本配套的下载文件和64位的 dll，我找到了另一个工具 <strong><a href="https://github.com/ruedigergad/clj-net-pcap/tree/master/jnetpcap" rel="nofollow" target="_blank">jnetpcap</a></strong>。</p>
+
+        <p>下载地址：<a href="https://github.com/ruedigergad/clj-net-pcap/blob/master/jnetpcap/jnetpcap-src-1.4.r1425-1.zip" rel="nofollow" target="_blank">https://github.com/ruedigergad/clj-net-pcap/blob/master/jnetpcap/jnetpcap-src-1.4.r1425-1.zip</a></p>
+
+        <blockquote>
+            <p>打开页面点击下载，这个链接不能直接通过迅雷等软件下载。</p>
+
+            <p>对应网盘地址：<a href="http://pan.baidu.com/s/1o7GvB5o" rel="nofollow" target="_blank">http://pan.baidu.com/s/1o7GvB5o</a> 密码：5g1y</p>
+        </blockquote>
+
+        <p>下载解压后，将 jnetpcap.dll 和 jnetpcap-pcap100.dll 放到 Java 的 bin 和 jre/bin 两个目录下。</p>
+
+
+
+        <h3 id="额外准备"><a name="t3"></a>额外准备</h3>
+
+        <blockquote>
+            <p>希望这个游戏能坚持到你看这篇文章的时候。</p>
+        </blockquote>
+
+        <p>如果你想按照我这里的过程，针对这个游戏进行抓包测试，可以额外装一些软件进行，如果仅仅是如何使用 Java 抓包，不需要这些。</p>
+
+        <ul>
+            <li>安卓游戏模拟器：逍遥安卓多开管理器</li>
+            <li>Wireshark 网络分析软件</li>
+            <li>游戏链接：<a href="http://pan.baidu.com/s/1c1Qj3f6" rel="nofollow" target="_blank">http://pan.baidu.com/s/1c1Qj3f6</a> 密码：6jgw</li>
+            <li>安卓无Root抓包软件：链接：<a href="http://pan.baidu.com/s/1o8ecqhk" rel="nofollow" target="_blank">http://pan.baidu.com/s/1o8ecqhk</a> 密码：d1k6</li>
+        </ul>
+
+        <p>通过安卓抓包软件简单获取服务器IP等信息，如下图：</p>
+
+        <p><img src="https://img-blog.csdn.net/20171105162534426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXNlYTUzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+        <p>简单抓包数据分析：</p>
+
+        <p><img src="https://img-blog.csdn.net/20171105162544247?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXNlYTUzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+        <h2 id="分解代码"><a name="t4"></a>分解代码</h2>
+
+        <p>以下内容和游戏无关，就是基本的用法。</p>
+
+
+
+        <h3 id="获取网卡"><a name="t5"></a>获取网卡</h3>
+
+        <p>通过下面代码获取当前机器的网卡信息。</p>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering">StringBuilder errbuf = <span class="hljs-keyword">new</span> StringBuilder();
+
+<span class="hljs-keyword">int</span> r = Pcap.findAllDevs(alldevs, errbuf);
+<span class="hljs-keyword">if</span> (r == Pcap.NOT_OK || alldevs.isEmpty()) {
+    System.err.printf(<span class="hljs-string">"Can't read list of devices, error is %s"</span>, errbuf
+            .toString());
+    <span class="hljs-keyword">return</span>;
+}</code></pre>
+
+        <p>输出网卡的信息。</p>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering">System.out.println(<span class="hljs-string">"Network devices found:"</span>);
+
+<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">for</span> (PcapIf device : alldevs) {
+    System.out.printf(<span class="hljs-string">"#%d: %s [%s]\n"</span>, i++, device.getName(), device
+            .getDescription());
+}</code></pre>
+
+        <p>在我电脑上输出的信息如下。</p>
+
+
+
+        <pre class="prettyprint" name="code"><code class="hljs tex has-numbering">Network devices found:
+<span class="hljs-special">#</span>0: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>22788384-70D1-47E6-A182-DEAE1D091D2C<span class="hljs-special">}</span> <span class="hljs-special">[</span>VMware Virtual Ethernet Adapter<span class="hljs-special">]</span>
+<span class="hljs-special">#</span>1: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>144877C1-CBA4-4E7A-B408-E482BFA7F59D<span class="hljs-special">}</span> <span class="hljs-special">[</span>VMware Virtual Ethernet Adapter<span class="hljs-special">]</span>
+<span class="hljs-special">#</span>2: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>93282E0F-D399-4904-95D5-062F4325FD48<span class="hljs-special">}</span> <span class="hljs-special">[</span>Microsoft<span class="hljs-special">]</span>
+<span class="hljs-special">#</span>3: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>055061E0-011E-488C-BF6C-D48252BCDEAB<span class="hljs-special">}</span> <span class="hljs-special">[</span>Microsoft<span class="hljs-special">]</span>
+<span class="hljs-special">#</span>4: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>6246A8BA-F000-4355-B3E0-5CAAF7229813<span class="hljs-special">}</span> <span class="hljs-special">[</span>VMware Virtual Ethernet Adapter<span class="hljs-special">]</span>
+<span class="hljs-special">#</span>5: <span class="hljs-command">\Device</span><span class="hljs-command">\NPF</span>_<span class="hljs-special">{</span>E4AB7839-5786-427B-BB2A-E8C40C529494<span class="hljs-special">}</span> <span class="hljs-special">[</span>Realtek PCIe GBE Family Controller<span class="hljs-special">]</span></code></pre>
+
+        <blockquote>
+            <p>名字相同的网卡很难区分，还可以通过 device 获取网卡的 IP 信息来轻松识别网卡。</p>
+        </blockquote>
+
+
+
+        <h3 id="选择一个要监控的网卡"><a name="t6"></a>选择一个要监控的网卡</h3>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering">PcapIf device = alldevs.get(<span class="hljs-number">2</span>);</code></pre>
+
+        <p>可以根据更多信息来匹配一个网卡，这里简单选择的第3个网卡。</p>
+
+
+
+        <h3 id="打开设备"><a name="t7"></a>打开设备</h3>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering"><span class="hljs-keyword">int</span> snaplen = <span class="hljs-number">64</span> * <span class="hljs-number">1024</span>;
+<span class="hljs-keyword">int</span> flags = Pcap.MODE_PROMISCUOUS;
+<span class="hljs-keyword">int</span> timeout = <span class="hljs-number">10</span> * <span class="hljs-number">1000</span>;
+Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
+
+<span class="hljs-keyword">if</span> (pcap == <span class="hljs-keyword">null</span>) {
+    System.err.printf(<span class="hljs-string">"Error while opening device for capture: "</span>
+            + errbuf.toString());
+    <span class="hljs-keyword">return</span>;
+}</code></pre>
+
+
+
+        <h3 id="创建一个数据包处理器"><a name="t8"></a>创建一个数据包处理器</h3>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering">PcapHandler&lt;String&gt; printSummaryHandler = <span class="hljs-keyword">new</span> PcapHandler&lt;String&gt;() {
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">nextPacket</span>(String user, <span class="hljs-keyword">long</span> seconds, <span class="hljs-keyword">int</span> useconds,
+                           <span class="hljs-keyword">int</span> caplen, <span class="hljs-keyword">int</span> len, ByteBuffer buffer) {
+        Date timestamp = <span class="hljs-keyword">new</span> Date(seconds * <span class="hljs-number">1000</span> + useconds/<span class="hljs-number">1000</span>); <span class="hljs-comment">// In millis</span>
+
+        System.out.printf(<span class="hljs-string">"Received packet at %s caplen=%-4d len=%-4d %s\n"</span>,
+                timestamp.toString(), <span class="hljs-comment">// timestamp to 1 ms accuracy</span>
+                caplen, <span class="hljs-comment">// Length actually captured</span>
+                len,    <span class="hljs-comment">// Original length of the packet</span>
+                user    <span class="hljs-comment">// User supplied object</span>
+        );
+    }
+};</code></pre>
+
+
+
+        <h3 id="循环监听-10-个"><a name="t9"></a>循环监听 10 个</h3>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering"><span class="hljs-comment">//可以修改 10 为 Integer.MAX_VALUE 来长期监听</span>
+pcap.loop(<span class="hljs-number">10</span>, printSummaryHandler, <span class="hljs-string">"jNetPcap rocks!"</span>);
+<span class="hljs-comment">//监听结束后关闭</span>
+pcap.close();</code></pre>
+
+        <p>上述过程的完整代码见文末。</p>
+
+
+
+        <h2 id="解析数据"><a name="t10"></a>解析数据</h2>
+
+        <p>前面提到的游戏，我个人对其中的世界聊天部分进行了分析，还提供了基于 Spring Boot 和 websocket 的小程序，可以启动后通过网页查看。</p>
+
+        <p>启动方法：</p>
+
+        <ol>
+            <li>按照前面的要求配置好基础环境</li>
+            <li>安卓模拟器安装游戏，在12区创建一个账号（可以修改下面源码配置文件中的服务器IP）</li>
+            <li>登陆游戏后，下载下面的源码，修改代码中选择网卡的地方，改成自己连接网络的那个网卡</li>
+            <li>启动 <code>TalkApplication</code> 后访问 <code>localhost:9090</code> 即可</li>
+        </ol>
+
+        <blockquote>
+            <p>源码下载：</p>
+
+            <p>链接：<a href="http://pan.baidu.com/s/1min9JCk" rel="nofollow" target="_blank">http://pan.baidu.com/s/1min9JCk</a> 密码：6sfd</p>
+
+            <p>已知问题：websocket 中没有维持心跳包，因此过段时间后会自动断开。</p>
+        </blockquote>
+
+        <p>效果图：</p>
+
+        <p><img src="https://img-blog.csdn.net/20171105163224085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXNlYTUzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+        <p><img src="https://img-blog.csdn.net/20171105162615813?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXNlYTUzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+
+
+
+        <h2 id="完整示例代码"><a name="t11"></a>完整示例代码</h2>
+
+
+
+        <pre class="prettyprint" name="code"><code class="language-java hljs  has-numbering"><span class="hljs-keyword">import</span> org.jnetpcap.Pcap;
+<span class="hljs-keyword">import</span> org.jnetpcap.PcapHandler;
+<span class="hljs-keyword">import</span> org.jnetpcap.PcapIf;
+
+<span class="hljs-keyword">import</span> java.nio.ByteBuffer;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Date;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassicPcapExample</span> {</span>
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) {
+        List&lt;PcapIf&gt; alldevs = <span class="hljs-keyword">new</span> ArrayList&lt;PcapIf&gt;(); <span class="hljs-comment">// Will be filled with NICs</span>
+        StringBuilder errbuf = <span class="hljs-keyword">new</span> StringBuilder();     <span class="hljs-comment">// For any error msgs</span>
+
+        <span class="hljs-javadoc">/********************************************
+         * First get a list of devices on this system
+         ********************************************/</span>
+        <span class="hljs-keyword">int</span> r = Pcap.findAllDevs(alldevs, errbuf);
+        <span class="hljs-keyword">if</span> (r == Pcap.NOT_OK || alldevs.isEmpty()) {
+            System.err.printf(<span class="hljs-string">"Can't read list of devices, error is %s"</span>, errbuf
+                    .toString());
+            <span class="hljs-keyword">return</span>;
+        }
+
+        System.out.println(<span class="hljs-string">"Network devices found:"</span>);
+
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (PcapIf device : alldevs) {
+            System.out.printf(<span class="hljs-string">"#%d: %s [%s]\n"</span>, i++, device.getName(), device
+                    .getDescription());
+        }
+
+        PcapIf device = alldevs.get(<span class="hljs-number">2</span>); <span class="hljs-comment">// We know we have atleast 1 device</span>
+        System.out.printf(<span class="hljs-string">"\nChoosing '%s' on your behalf:\n"</span>, device
+                .getDescription());
+
+        <span class="hljs-javadoc">/***************************************
+         * Second we open up the selected device
+         ***************************************/</span>
+        <span class="hljs-keyword">int</span> snaplen = <span class="hljs-number">64</span> * <span class="hljs-number">1024</span>;           <span class="hljs-comment">// Capture all packets, no trucation</span>
+        <span class="hljs-keyword">int</span> flags = Pcap.MODE_PROMISCUOUS; <span class="hljs-comment">// capture all packets</span>
+        <span class="hljs-keyword">int</span> timeout = <span class="hljs-number">10</span> * <span class="hljs-number">1000</span>;           <span class="hljs-comment">// 10 seconds in millis</span>
+        Pcap pcap = Pcap
+                .openLive(device.getName(), snaplen, flags, timeout, errbuf);
+
+        <span class="hljs-keyword">if</span> (pcap == <span class="hljs-keyword">null</span>) {
+            System.err.printf(<span class="hljs-string">"Error while opening device for capture: "</span>
+                    + errbuf.toString());
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-javadoc">/**********************************************************************
+         * Third we create a packet hander which will be dispatched to from the
+         * libpcap loop.
+         **********************************************************************/</span>
+        PcapHandler&lt;String&gt; printSummaryHandler = <span class="hljs-keyword">new</span> PcapHandler&lt;String&gt;() {
+
+            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">nextPacket</span>(String user, <span class="hljs-keyword">long</span> seconds, <span class="hljs-keyword">int</span> useconds,
+                                   <span class="hljs-keyword">int</span> caplen, <span class="hljs-keyword">int</span> len, ByteBuffer buffer) {
+                Date timestamp = <span class="hljs-keyword">new</span> Date(seconds * <span class="hljs-number">1000</span> + useconds/<span class="hljs-number">1000</span>); <span class="hljs-comment">// In millis</span>
+
+                System.out.printf(<span class="hljs-string">"Received packet at %s caplen=%-4d len=%-4d %s\n"</span>,
+                        timestamp.toString(), <span class="hljs-comment">// timestamp to 1 ms accuracy</span>
+                        caplen, <span class="hljs-comment">// Length actually captured</span>
+                        len,    <span class="hljs-comment">// Original length of the packet</span>
+                        user    <span class="hljs-comment">// User supplied object</span>
+                );
+            }
+        };
+
+        <span class="hljs-javadoc">/************************************************************
+         * Fourth we enter the loop and tell it to capture 10 packets
+         ************************************************************/</span>
+        pcap.loop(<span class="hljs-number">10</span>, printSummaryHandler, <span class="hljs-string">"jNetPcap rocks!"</span>);
+
+        <span class="hljs-comment">/*
+         * Last thing to do is close the pcap handle
+         */</span>
+        pcap.close();
+    }
+
+}
+</code></pre>            </div>
+    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/markdown_views-ea0013b516.css">
+</div>
+
+</body>
+</html>

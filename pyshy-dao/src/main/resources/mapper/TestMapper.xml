@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pyshy.dao.test.TestMapper">
+
+    <resultMap id="ResultMap" type="com.pyshy.entity.test.TestVO">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="parent_id" property="parentId" jdbcType="BIGINT" />
+        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="add_select" property="addSelect" jdbcType="VARCHAR" />
+        <result column="error_info" property="errorInfo" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="pageQuery" resultMap="ResultMap" parameterType="testParam">
+        select
+        id AS id,parent_id AS parentId ,category AS category , add_select AS addSelect , state AS state , update_time , update_name
+        from
+        test
+        <where>
+            1 = 1
+            AND parent_id IS NULL
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+            <if test="addSelect != null and addSelect != ''">
+                AND add_select = #{addSelect}
+            </if>
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+        </where>
+        ORDER BY update_time DESC
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="testParam">
+        SELECT
+          count(*)
+        FROM
+          test
+        WHERE
+            parent_id IS NULL
+        <if test="category != null and category != ''">
+            AND category = #{category,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="queryByCategory" resultMap="ResultMap">
+        select
+        id AS id,parent_id AS parentId ,category AS category , add_select AS addSelect , state AS state , update_time , update_name
+        from
+        test
+        where
+            category like CONCAT("%",#{category,jdbcType=VARCHAR},"%")
+    </select>
+
+    <select id="queryById" parameterType="java.lang.Long" resultMap="ResultMap">
+        select
+        id AS id,parent_id AS parentId ,category AS category , add_select AS addSelect , state AS state , update_time , update_name
+        from
+        test
+        where
+        id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByParentId" parameterType="java.lang.Long" resultMap="ResultMap">
+        select
+        *
+        from
+        test
+        where
+        parent_id = #{parentId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertTest" parameterType="testPO" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into test(id,parent_id,category,add_select,error_info,state,update_time,update_name) values(null,#{parentId},#{category},#{addSelect},#{errorInfo},#{state},#{updateTime},#{updateName});
+    </insert>
+
+    <update id="updateCategory" parameterType="testPO">
+        UPDATE test SET category = #{category},
+        state = #{state} , update_time = #{updateTime} ,update_name = #{updateName} WHERE id = #{id}
+    </update>
+
+    <update id="updateSelect" parameterType="testPO">
+        UPDATE test SET add_select = #{addSelect} ,
+        state = #{state} , update_time = #{updateTime} ,update_name = #{updateName} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCategory" parameterType="java.lang.Long">
+        DELETE FROM test WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByParentId" parameterType="java.lang.Long">
+        DELETE FROM test WHERE parent_id = #{parentId}
+    </delete>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM test WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pyshy.dao.picture.PictureMapper">
+
+    <resultMap id="ResultMap" type="com.pyshy.entity.picture.PicturePO">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="picture_name" property="pictureName" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_name" property="createName" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="pageQuery" resultMap="ResultMap" parameterType="com.pyshy.entity.picture.PictureParam">
+        select * from picture
+        <where>
+            <if test="id != null and id != ''">
+               AND id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="pictureName != null and pictureName != ''">
+                AND picture_name LIKE CONCAT("%",#{pictureName,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="author != null and author != ''">
+                AND author LIKE CONCAT("%",#{author,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="remark != null and remark != ''">
+                AND remark LIKE CONCAT("%",#{remark,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="content != null and content != ''">
+                AND content LIKE CONCAT("%",#{content,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                AND img_url LIKE CONCAT("%",#{imgUrl,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="state != null">
+                AND state = #{state,jdbcType=INTEGER}
+            </if>
+        </where>
+        ORDER BY update_time desc limit #{offset},#{limit}
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="com.pyshy.entity.picture.PictureParam">
+        select count(*) from picture
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="pictureName != null and pictureName != ''">
+                AND picture_name LIKE CONCAT("%",#{pictureName,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="author != null and author != ''">
+                AND author LIKE CONCAT("%",#{author,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="remark != null and remark != ''">
+                AND remark LIKE CONCAT("%",#{remark,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="content != null and content != ''">
+                AND content LIKE CONCAT("%",#{content,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                AND img_url LIKE CONCAT("%",#{imgUrl,jdbcType=VARCHAR},"%")
+            </if>
+            <if test="state != null">
+                AND state = #{state,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="pictureDetail" resultMap="ResultMap" parameterType="java.lang.Long">
+        select * from picture WHERE id = #{id}
+    </select>
+
+    <insert id="addPicture" parameterType="com.pyshy.entity.picture.PicturePO" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        INSERT INTO picture (id,picture_name,author,remark,content,create_time,create_name,update_time,update_name,img_url,state)
+          VALUES
+        (null,#{pictureName},#{author},#{remark},#{content},#{createTime},#{createName},#{updateTime},#{updateName},#{imgUrl},#{state})
+    </insert>
+
+</mapper>

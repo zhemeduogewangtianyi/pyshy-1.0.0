@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lg-manager" />
+        <module name="pyshy-common" />
+        <module name="pyshy-dao" />
+        <module name="pyshy-entity" />
+        <module name="pyshy-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lg-manager" target="1.8" />
+      <module name="pyshy" target="1.8" />
+      <module name="pyshy-common" target="1.8" />
+      <module name="pyshy-dao" target="1.8" />
+      <module name="pyshy-entity" target="1.8" />
+      <module name="pyshy-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lg-manager/lg-manager.iml" filepath="$PROJECT_DIR$/lg-manager/lg-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pyshy.iml" filepath="$PROJECT_DIR$/pyshy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pyshy-common/pyshy-common.iml" filepath="$PROJECT_DIR$/pyshy-common/pyshy-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pyshy-dao/pyshy-dao.iml" filepath="$PROJECT_DIR$/pyshy-dao/pyshy-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pyshy-entity/pyshy-entity.iml" filepath="$PROJECT_DIR$/pyshy-entity/pyshy-entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pyshy-service/pyshy-service.iml" filepath="$PROJECT_DIR$/pyshy-service/pyshy-service.iml" />
+    </modules>
+  </component>
+</project>
