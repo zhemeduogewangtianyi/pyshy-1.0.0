@@ -3,13 +3,27 @@
 <head>
     <style>
         .about{
-            margin: 15%;
+            margin: 10%;
         }
         .picture{
             margin-top: -5%;
         }
-        .footer{
-            margin-top: 8%;
+        .footer {
+            color: #9e9e9e;
+            padding: 30px 0;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 70px;
+        }
+        .footer-top .about>div h4 {
+            color: #563d7c;
+            font-size: 16px;
+        }
+        .footer a {
+            color: #9e9e9e;
+        }
+        .footer-top .about>div {
+            height: 110px;
+            margin-bottom: 10px;
         }
     </style>
     <meta charset="UTF-8">
@@ -19,29 +33,31 @@
 <body>
 
     <!-- 导航栏 -->
-    <div class="bs-example bs-navbar-top-example" data-example-id="navbar-fixed-to-top">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">PYSHY</a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-                    <ul class="nav navbar-nav">
-                        <li class="first active"><a href="#">首页</a></li>
-                        <li><a class="secend" href="#">二页</a></li>
-                        <li><a class="three" href="#">三页</a></li>
-                    </ul>
-                </div>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand hidden-sm" href="http://localhost:8083" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">PYSHY</a>
             </div>
-        </nav>
+            <div class="navbar-collapse collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li class="hidden-sm hidden-md"><a href="https://v2.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">PYSHY简介</a></li>
+                    <li><a href="https://v3.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v3doc'])">PYSHY活动通知</a></li>
+                    <li><a href="https://v4.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v4doc'])">PYSHY我要投稿</a></li>
+                    <li><a href="/p/lesscss/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'less'])">PYSHY 网站教程</a></li>
+                    <li><a href="https://www.jquery123.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'jquery'])">PYSHY 对外API</a></li>
+                    <li><a class="reddot" href="http://www.youzhan.org/" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'youzhan-main-nav'])">PYSHY 以往实例</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right hidden-sm">
+                    <li><a href="/about/" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'about'])">关于</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <!-- 滚动图片 -->
@@ -56,19 +72,19 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img style="width: 100%;height: 537.56px" src="http://originoo-1.b0.upaiyun.com//28/2018/06/06/p_9bybe4rqzty1ms5jouvtbnma8u3t0jq7.jpg!contest" alt="...">
+                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//sys/2018/07/17/p_dqwkyjjg1svn09nd01tm2cmeunn2216h.jpg!originoo" alt="...">
                 <div class="carousel-caption">
                     ...
                 </div>
             </div>
             <div class="item">
-                <img style="width: 100%;height: 537.56px" src="http://originoo-1.b0.upaiyun.com//sys/2018/07/17/p_dqwkyjjg1svn09nd01tm2cmeunn2216h.jpg!originoo" alt="...">
+                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//28/2018/06/06/p_9bybe4rqzty1ms5jouvtbnma8u3t0jq7.jpg!contest" alt="...">
                 <div class="carousel-caption">
                     ...
                 </div>
             </div>
             <div class="item">
-                <img style="width: 100%;height: 537.56px" src="http://originoo-1.b0.upaiyun.com//originoograde/ExcellentPicture/2924/20180609/4qbdl8pzlf3s8o7hmncx5qmdvy1nuv6u_BVS-P0041648.jpg!style1024" alt="...">
+                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//originoograde/ExcellentPicture/2924/20180609/4qbdl8pzlf3s8o7hmncx5qmdvy1nuv6u_BVS-P0041648.jpg!style1024" alt="...">
                 <div class="carousel-caption">
                     ...
                 </div>
@@ -117,7 +133,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
 
     <!--内容展示-->
@@ -190,9 +206,62 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="container footer">
-        <p class="float-right"><a href="#">回到顶部</a></p>
-        <p>© 2017-2018 Company, Inc. · </p>
+    <footer class="footer ">
+        <div class="container">
+            <div class="row footer-top">
+                <div class="col-md-6 col-lg-6">
+                    <h4>
+                        <img src="https://assets.bootcss.com/www/assets/img/logo.png?1532594948592">
+                    </h4>
+                    <p>我们一直致力于为广大劳动人民提供最优质的页面！</p>
+                </div>
+                <div class="col-md-6  col-lg-5 col-lg-offset-1">
+                    <div class="row about">
+                        <div class="col-sm-3">
+                            <h4>关于</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="/about/">关于我们</a></li>
+                                <li><a href="/ad/">广告合作</a></li>
+                                <li><a href="/links/">友情链接</a></li>
+                                <li><a href="/hr/">找我谈谈</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>联系方式</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="http://weibo.com/bootcss" title="王富贵中文网官方微博" target="_blank">新浪微博</a></li>
+                                <li><a href="mailto:admin@bootcss.com">电子邮件</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <h4>旗下网站</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="http://www.golaravel.com/" target="_blank">Laravel中文网</a></li>
+                                <li><a href="http://www.ghostchina.com/" target="_blank">Ghost中国</a></li>
+                                <li><a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a></li>
+                                <li><a href="https://pkg.phpcomposer.com/" target="_blank">Packagist中国镜像</a></li>
+                                <li><a href="https://www.return.net/" target="_blank">燃腾教育</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-2">
+                            <h4>赞助商</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="https://www.jdcloud.com/" target="_blank">京东云</a></li>
+                                <li><a href="https://www.upyun.com" target="_blank">又拍云</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+            <div class="row footer-bottom">
+                <ul class="list-inline text-center">
+                    <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号</a></li><li>京公网安备11010802014853</li>
+                    <p class="float-right"><a href="#">回到顶部</a></p>
+                </ul>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
