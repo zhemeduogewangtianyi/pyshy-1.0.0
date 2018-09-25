@@ -13,6 +13,8 @@
         <module>pyshy-dao</module>
         <module>pyshy-service</module>
         <module>pyshy-entity</module>
+        <module>lg-manager</module>
+        <module>lg-webapi</module>
     </modules>
 
     <properties>

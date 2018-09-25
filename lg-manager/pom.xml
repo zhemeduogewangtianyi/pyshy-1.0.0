@@ -36,11 +36,6 @@
 			<version>${pyshy.version}</version>
 		</dependency>
 
-		<dependency>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<groupId>org.springframework.boot</groupId>
-		</dependency>
-
 		<!-- freemark -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

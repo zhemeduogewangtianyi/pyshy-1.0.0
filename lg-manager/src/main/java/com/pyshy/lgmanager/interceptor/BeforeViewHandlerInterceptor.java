@@ -1,5 +1,6 @@
 package com.pyshy.lgmanager.interceptor;
 
+import com.pyshy.common.utils.PathModel;
 import com.pyshy.common.utils.UserContextHelper;
 import com.pyshy.entity.userInfo.user.UserInfo;
 import org.apache.shiro.SecurityUtils;
@@ -20,18 +21,10 @@ public class BeforeViewHandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        modelAndView = PathModel.getPath(modelAndView,request);
         if(modelAndView==null){
             return;
         }
-        String schema=request.getScheme();
-        String serverName=request.getServerName();
-        String port=request.getServerPort()+"";
-        String appName=request.getContextPath();
-        String appPath= schema+"://"+serverName+":"+port+appName;
-        modelAndView.addObject("appPath", appPath);
-        modelAndView.addObject("appName", appName);
-        modelAndView.addObject("request", request);
-        modelAndView.addObject("serverMS", System.currentTimeMillis());
     }
 
     @Override
