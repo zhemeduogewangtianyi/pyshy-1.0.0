@@ -145,7 +145,7 @@
                         <div class="post-content">
                             <div class="editable" data-cms-source="/_layouts/home.html" data-cms-index="8">
                                 <p>
-                                    <img src="//goss.vcg.com/223a9bb0-a1bc-11e8-a6fe-4d6f889a23c9.jpg" style="margin-left: -75%;margin-bottom: 200px;" />
+                                    <img src="//goss.vcg.com/223a9bb0-a1bc-11e8-a6fe-4d6f889a23c9.jpg" style="margin-left: -70%;margin-bottom: 200px;" />
                                 </p>
                             </div>
                         </div>
