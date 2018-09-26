@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="lg-webapi:war">
+    <output-path>$PROJECT_DIR$/lg-webapi/target</output-path>
+    <root id="archive" name="lg-webapi-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="lg-webapi:war exploded" />
+    </root>
+  </artifact>
+</component>

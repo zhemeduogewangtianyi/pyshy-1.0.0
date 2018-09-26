@@ -2,12 +2,15 @@
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/lg-manager" />
+    <file type="web" url="file://$PROJECT_DIR$/lg-webapi" />
+    <file type="web" url="file://$PROJECT_DIR$/lgwebapi" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/lg-manager/pom.xml" />
+        <option value="$PROJECT_DIR$/lg-webapi/pom.xml" />
       </list>
     </option>
   </component>
