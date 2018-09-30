@@ -83,10 +83,10 @@
     </form>
 </div>
 <script>
-    $(function(){debugger
+    $(function(){
         $("#username").focus();
 
-        if($("#message").val()){debugger
+        if($("#message").val()){
             layer.msg($("#message").val());
         }
     });

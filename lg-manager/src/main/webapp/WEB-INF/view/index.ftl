@@ -56,7 +56,7 @@
                 <li class="active menu" data-src="/pandect/list"><a href="#">总览</a></li>
                 <li class="menu" data-src="/picture/list"><a href="#">图片管理</a></li>
                 <li class="menu" data-src="/user/list"><a href="#">用户管理</a></li>
-            <#--<li class="menu" data-src="/pandect/list"><a href="#">审核</a></li>-->
+                <li class="menu" data-src="/banner/list"><a href="#">Banner</a></li>
             <#--<li class="menu" data-src="/pandect/list"><a href="#">oracle</a></li>-->
                 <li class="menu" data-src="/test/list"><a href="#">Test</a></li>
             </ul>
