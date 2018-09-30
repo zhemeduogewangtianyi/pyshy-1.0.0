@@ -105,7 +105,10 @@
         params = {
             pictureName : $('#pictureName').val(),
             author : $("#author").val(),
-            state : state
+            state : state,
+            order : params.order,
+            offset : params.offset,
+            limit : params.limit
         }
 
         return params;

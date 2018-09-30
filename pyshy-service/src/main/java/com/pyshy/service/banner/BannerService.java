@@ -18,4 +18,8 @@ public interface BannerService {
 
     public BannerVO bannerDetail(Long id);
 
+    public void bannerDelete(Long id);
+
+    public ResponseResult updateBanner(MultipartFile file,BannerAddParam param);
+
 }

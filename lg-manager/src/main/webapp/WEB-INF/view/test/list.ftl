@@ -94,7 +94,10 @@
         var state = $('.J_tab.active').attr('data-state');
         params = {
             category : $('#category').val(),
-            state : state
+            state : state,
+            order : params.order,
+            offset : params.offset,
+            limit : params.limit
         }
         return params;
     }

@@ -5,6 +5,7 @@ public enum CommonEnum {
     INT_0(0),
     INT_1(1),
     INT_2(2),
+    INT_5(5),
     INT_6(6),
     INT_200(200),
     INT_500(500),

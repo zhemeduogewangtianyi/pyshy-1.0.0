@@ -41,7 +41,6 @@ public class BannerServiceImpl implements BannerService {
         for (BannerPO pos : bannerPOS) {
             BannerVO vo = new BannerVO();
             BeanUtils.copyProperties(pos, vo);
-            byte[] buffer = (byte[]) vo.getPicture();
             vo.setUpdateTimeStr(sdf.format(vo.getUpdateTime()));
             vo.setCreateTimeStr(sdf.format(vo.getCreateTime()));
             bannerVOS.add(vo);
@@ -61,20 +60,10 @@ public class BannerServiceImpl implements BannerService {
             try {
                 InputStream in = file.getInputStream();
                 FileInputStream fis = (FileInputStream) in;
-                try {
-                    BufferedImage image = ImageIO.read(file.getInputStream());
-                    if (image != null) {//如果image=null 表示上传的不是图片格式
-                        System.out.println(image.getWidth());//获取图片宽度，单位px
-                        System.out.println(image.getHeight());//获取图片高度，单位px
-                    } else {
-                        System.out.println("这不是图片");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                byte[] data = new byte[1024];
+
+                getImageInfo(file);
+
                 byte[] buff = null;
-                int len;
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 byte[] b = new byte[1024];
                 int n;
@@ -93,16 +82,8 @@ public class BannerServiceImpl implements BannerService {
                 po.setUpdateName(UserContextHelper.getRealName());
                 po.setState(CommonEnum.INT_0.getCode());
                 Long i = mapper.addBanner(po);
-                ResponseResult result = new ResponseResult();
-                if (i != null) {
-                    result.setCode(CommonEnum.INT_200.getCode());
-                    result.setMessage(BizEnum.SUCCESS.getMessage());
-                    return result;
-                } else {
-                    result.setCode(CommonEnum.INT_500.getCode());
-                    result.setMessage(BizEnum.UPLOAD_ERROR.getMessage());
-                    return result;
-                }
+                ResponseResult result = isOk(i);
+                return result;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -119,4 +100,74 @@ public class BannerServiceImpl implements BannerService {
             vo.setCreateTimeStr(sdf.format(vo.getCreateTime()));
             return vo;
         }
+
+    @Override
+    public void bannerDelete(Long id) {
+        mapper.bannerDelete(id);
     }
+
+    @Override
+    public ResponseResult updateBanner(MultipartFile file, BannerAddParam param) {
+        BannerPO po = new BannerPO();
+        byte[] buff = null;
+        try {
+            if(file != null){
+                InputStream in = file.getInputStream();
+                FileInputStream fis = (FileInputStream) in;
+
+                getImageInfo(file);
+
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] b = new byte[1024];
+                int n;
+                while ((n = fis.read(b)) != -1) {
+                    bos.write(b, 0, n);
+                }
+                fis.close();
+                bos.close();
+                buff = bos.toByteArray();
+            }
+
+
+            BeanUtils.copyProperties(param, po);
+            po.setPicture(buff);
+            po.setUpdateTime(new Date());
+            po.setUpdateName(UserContextHelper.getRealName());
+            po.setState(CommonEnum.INT_0.getCode());
+            Long i = mapper.updateBanner(po);
+            ResponseResult result = isOk(i);
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private ResponseResult isOk(Long id){
+        ResponseResult result = new ResponseResult();
+        if (id != null) {
+            result.setCode(CommonEnum.INT_200.getCode());
+            result.setMessage(BizEnum.SUCCESS.getMessage());
+            return result;
+        } else {
+            result.setCode(CommonEnum.INT_500.getCode());
+            result.setMessage(BizEnum.UPLOAD_ERROR.getMessage());
+            return result;
+        }
+    }
+
+    private void getImageInfo(MultipartFile file){
+        try {
+            BufferedImage image = ImageIO.read(file.getInputStream());
+            if (image != null) {//如果image=null 表示上传的不是图片格式
+                System.out.println(image.getWidth());//获取图片宽度，单位px
+                System.out.println(image.getHeight());//获取图片高度，单位px
+            } else {
+                System.out.println("这不是图片");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

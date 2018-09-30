@@ -59,7 +59,7 @@
            data-pagination="true"
            data-side-pagination="server"
            data-page-number="1"
-           data-page-size="10"
+           data-page-size="5"
            data-page-list="[]"
            data-search="false"
            data-card-view="false"
@@ -73,8 +73,8 @@
             <th data-width="12%" data-class="text-center" data-field="name">图片名称</th>
             <th data-width="15%" data-class="text-center" data-field="picture" data-formatter="pickture_formatter">缩略图</th>
             <th data-width="20%" data-class="text-center" data-field="sort">排序</th>
-            <th data-width="5%" data-class="text-center" data-field="state" >图片状态</th>
-            <th data-width="20%" data-class="text-center" data-field="updateTimeStr">更新时间</th>
+            <th data-width="5%" data-class="text-center" data-field="state" data-formatter="state_formatter">图片状态</th>
+            <th data-width="20%" data-class="text-center" data-field="updateTimeStr" data-formatter="update_time_formatter">更新时间</th>
             <th data-width="20%" data-class="text-center" data-formatter="opration_formatter">操作</th>
         </tr>
         </thead>
@@ -91,6 +91,69 @@
         });
 
     });
+
+    function show_detail(id){
+        //iframe窗
+
+        layer.open({
+            type: 2,
+            title: "Banner详情",
+            area: ['1188px', '650px'],
+            content: '/banner/detail?id=' + id
+        });
+    }
+
+
+    function open_add(){
+        layer.open({
+            type : 2,
+            title : "新增Banner",
+            area: ['880px', '650px'],
+            content : '/banner/openAdd',
+            btn : ['保存','取消'],
+            yes : function (index,layero){
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.save();
+            },
+            btnAlign : 'c'
+        });
+    }
+
+    function update_banner(id){
+        layer.open({
+            type : 2,
+            title : "编辑Banner",
+            area: ['880px', '650px'],
+            content : '/banner/openUpdate?id='+id,
+            btn : ['保存','取消'],
+            yes : function (index,layero){
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.update();
+            },
+            btnAlign : 'c'
+        });
+    }
+
+    function delete_banner(id){
+        layer.confirm("您确定要删除吗？",{title : "提示",skin : 'pop-box'},function(){
+            $.ajax({
+                type : 'post',
+                url : '/banner/delete',
+                data : {"id":id},
+                success : function(data){
+                    if(data.code == 200){
+                        layer.closeAll();
+                        layer.msg(data.message,{time:1000},function(e){
+                            window.location.reload();
+                        });
+
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            })
+        })
+    }
 
     function getBannerId(){
         var ids = '';
@@ -109,7 +172,10 @@
         state = $('.J_tab.active').attr('data-state');
         params = {
             name : $('#name').val(),
-            state : state
+            state : state,
+            order : params.order,
+            offset : params.offset,
+            limit : params.limit
         }
 
         return params;
@@ -128,41 +194,14 @@
     // data:image/jpeg;base64,base64编码的jpeg图片数据
     // data:image/x-icon;base64,base64编码的icon图片数据
 
-    function pickture_formatter(index,row,value){debugger
+    function pickture_formatter(index,row,value){
         var str = "";
         if(row != '' && row != null){
-            // str += "<img width='150px' onclick='show_detail("+row.id+")' height='80px' src='" + row.imgUrlAll + "'>";
-            // $.ajax({
-            //     type : "get",
-            //     url : "/banner/getImage",
-            //     data : {"id":row.id},
-            //     success : function(data){debugger
-            //         $("#span").attr("src","data:image/jpeg;base64,"+data);
-            //         // str += "<img width='150px' onclick='show_detail("+row.id+")' height='80px' src='data:image/jpeg;base64," + data + "'>";
-            //     }
-            // })
             str += "<img width='150px' onclick='show_detail("+row.id+")' height='80px' src='data:image/jpeg;base64," + row.picture + "'>";
         }else{
             str += "<img width='150px' height='80px' src='/static/media/images/9.png'>"
         }
         return str;
-    }
-
-    function remark_formatter(index,row,value){
-        var str = "";
-        if(row.remark){
-            if(row.remark.length > 20){
-                str += "<span title="+row.remark+">" + row.remark.substring(0,20) + "...</span>";
-            }else{
-                str += "<span title="+row.remark+">" + row.remark + "</span>";
-            }
-
-        }else{
-            str += "-";
-        }
-
-        return str;
-
     }
 
     function state_formatter(index,row,value){
@@ -189,36 +228,13 @@
 
     function opration_formatter(index,row,value){
         var str = "";
-        str += "<a href='#' onclick='show_detail("+ row.id +")'>详情</a>"
+        str += "<a href='#' onclick='show_detail("+ row.id +")'>详情</a>&emsp;";
+        str += "<a href='#' onclick='update_banner("+ row.id +")'>编辑</a>&emsp;";
+        str += "<a href='#' onclick='delete_banner("+ row.id +")'>删除</a>";
         return str;
     }
 
-    function show_detail(id){
-        //iframe窗
 
-        layer.open({
-            type: 2,
-            title: "Banner详情",
-            area: ['1188px', '750px'],
-            content: '/banner/detail?id=' + id
-        });
-    }
-
-
-    function open_add(){
-        layer.open({
-            type : 2,
-            title : "新增Banner",
-            area: ['880px', '650px'],
-            content : '/banner/openAdd',
-            btn : ['保存','取消'],
-            yes : function (index,layero){
-                var iframeWin = window[layero.find('iframe')[0]['name']];
-                iframeWin.save();
-            },
-            btnAlign : 'c'
-        });
-    }
 </script>
 
 </body>

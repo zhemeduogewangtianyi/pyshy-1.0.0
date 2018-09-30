@@ -1,6 +1,8 @@
 package com.pyshy.entity.test;
 
-public class TestParam {
+import com.pyshy.entity.page.PageQueryParam;
+
+public class TestParam extends PageQueryParam{
 
     private String category;
 

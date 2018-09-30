@@ -19,4 +19,8 @@ public interface BannerMapper {
 
     public BannerPO bannerDetail(Long id);
 
+    public void bannerDelete(Long id);
+
+    public Long updateBanner(BannerPO po);
+
 }

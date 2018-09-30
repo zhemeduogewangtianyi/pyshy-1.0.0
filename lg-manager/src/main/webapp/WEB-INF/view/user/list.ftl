@@ -34,6 +34,7 @@
            data-page-list="[]"
            data-search="false"
            data-card-view="false"
+           data-query-params="queryParams"
            id="dataTable">
         <thead>
         <tr>
@@ -51,6 +52,20 @@
     $(function() {
         $('#dataTable').bootstrapTable();
     });
+
+    function queryParams(params){
+        if(!params){
+            params = {}
+        }
+        var state = $('.J_tab.active').attr('data-state');
+        params = {
+            state : state,
+            order : params.order,
+            offset : params.offset,
+            limit : params.limit
+        }
+        return params;
+    }
 
     function queryByState(data){
         $("#state").val(data);

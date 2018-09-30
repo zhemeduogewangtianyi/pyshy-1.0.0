@@ -61,5 +61,21 @@
           VALUES
         (null,#{name},#{picture},#{sort},#{createTime},#{createName},#{updateTime},#{updateName},#{state})
     </insert>
+    
+    <delete id="bannerDelete" parameterType="java.lang.Long">
+        delete FROM banner WHERE id = #{id}
+    </delete>
+
+    <update id="updateBanner" parameterType="com.pyshy.entity.banner.BannerPO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update banner SET `name` = #{name},
+        <if test="picture != null">
+            picture = #{picture},
+        </if>
+        sort = #{sort},
+        update_time = #{updateTime},
+        update_name = #{updateName},
+        state = #{state}
+        where id = #{id}
+    </update>
 
 </mapper>
