@@ -66,6 +66,14 @@
         delete FROM banner WHERE id = #{id}
     </delete>
 
+    <update id="bannerStop" parameterType="java.lang.Long">
+        UPDATE banner SET state = 1 WHERE id = #{id}
+    </update>
+
+    <update id="bannerEnable" parameterType="java.lang.Long">
+        UPDATE banner SET state = 0 WHERE id = #{id}
+    </update>
+
     <update id="updateBanner" parameterType="com.pyshy.entity.banner.BannerPO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         update banner SET `name` = #{name},
         <if test="picture != null">

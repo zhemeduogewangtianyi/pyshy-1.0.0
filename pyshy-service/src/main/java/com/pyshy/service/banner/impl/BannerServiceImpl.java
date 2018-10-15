@@ -144,6 +144,16 @@ public class BannerServiceImpl implements BannerService {
         return null;
     }
 
+    @Override
+    public void bannerStop(Long id) {
+        mapper.bannerStop(id);
+    }
+
+    @Override
+    public void bannerEnable(Long id) {
+        mapper.bannerEnable(id);
+    }
+
     private ResponseResult isOk(Long id){
         ResponseResult result = new ResponseResult();
         if (id != null) {

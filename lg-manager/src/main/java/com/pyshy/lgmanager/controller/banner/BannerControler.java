@@ -93,11 +93,30 @@ public class BannerControler {
     @ResponseBody
     public ResponseResult deleteBanner(Long id){
         service.bannerDelete(id);
+        return success();
+    }
+
+    @RequestMapping(value = "/stop")
+    @ResponseBody
+    public ResponseResult stopBanner(Long id,String active){
+        service.bannerStop(id);
+        return success();
+    }
+
+    @RequestMapping(value = "/enable")
+    @ResponseBody
+    public ResponseResult enableBanner(Long id){
+        service.bannerEnable(id);
+        return success();
+    }
+
+    private ResponseResult success(){
         ResponseResult responseResult = new ResponseResult();
         responseResult.setMessage(BizEnum.SUCCESS.getMessage());
         responseResult.setCode(CommonEnum.INT_200.getCode());
         return responseResult;
     }
+
 
     @RequestMapping(value = "/update")
     @ResponseBody

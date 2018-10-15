@@ -23,4 +23,8 @@ public interface BannerMapper {
 
     public Long updateBanner(BannerPO po);
 
+    public void bannerStop(Long id);
+
+    public void bannerEnable(Long id);
+
 }

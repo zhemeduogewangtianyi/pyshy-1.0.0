@@ -22,4 +22,8 @@ public interface BannerService {
 
     public ResponseResult updateBanner(MultipartFile file,BannerAddParam param);
 
+    public void bannerStop(Long id);
+
+    public void bannerEnable(Long id);
+
 }
