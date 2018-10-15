@@ -10,9 +10,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@ImportResource(locations = {"classpath*:dubbo-provider.xml"})
 public class LgManagerApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
