@@ -155,6 +155,52 @@
         })
     }
 
+    function stop_banner(id){debugger
+        var active = "";
+        $('.J_tab').each(function(){
+            if($(this).hasClass("active")){
+                active = $(this).attr("data-state");
+            }
+        });
+        layer.confirm("您确定要停用吗？",{title : "提示",skin : 'pop-box'},function(){
+            $.ajax({
+                type : 'post',
+                url : '/banner/stop',
+                data : {"id":id,"active":active},
+                success : function(data){
+                    if(data.code == 200){
+                        layer.closeAll();
+                        layer.msg(data.message,{time:1000},function(e){
+                            window.location.reload();
+                        });
+
+                    }else{
+                        layer.msg(data.message);
+                    }
+                }
+            })
+        })
+    }
+
+    function enable_banner(id){
+        $.ajax({
+            type : 'post',
+            url : '/banner/enable',
+            data : {"id":id},
+            success : function(data){
+                if(data.code == 200){
+                    layer.closeAll();
+                    layer.msg(data.message,{time:1000},function(e){
+                        window.location.reload();
+                    });
+
+                }else{
+                    layer.msg(data.message);
+                }
+            }
+        })
+    }
+
     function getBannerId(){
         var ids = '';
         $('.banner_id').each(function(){
@@ -230,7 +276,13 @@
         var str = "";
         str += "<a href='#' onclick='show_detail("+ row.id +")'>详情</a>&emsp;";
         str += "<a href='#' onclick='update_banner("+ row.id +")'>编辑</a>&emsp;";
-        str += "<a href='#' onclick='delete_banner("+ row.id +")'>删除</a>";
+        str += "<a href='#' onclick='delete_banner("+ row.id +")'>删除</a>&emsp;";
+        if(row.state == 0){
+            str += "<a href='#' onclick='stop_banner("+ row.id +")'>停用</a>";
+        }
+        if(row.state == 1){
+            str += "<a href='#' onclick='enable_banner("+ row.id +")'>启用</a>";
+        }
         return str;
     }
 

@@ -4,16 +4,7 @@
     <meta charset="UTF-8">
     <title>用户详情</title>
 
-    <link rel="shortcut icon" href="media/images/9.png">
-    <link href="/media/css/bootstrap.css" rel="stylesheet">
-    <link href="/media/layer/theme/default/layer.css" rel="stylesheet">
-    <link href="/media/layer/mobile/need/layer.css" rel="stylesheet">
-    <!-- 引入bootstrap-table样式 -->
-    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
-    <script src="/media/js/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="/media/js/bootstrap.js"></script>
-    <script src="/media/layui/layui.js"></script>
-    <script src="/media/layer/layer.js" merge="true"></script>
+    <#include "../include/head.ftl">
     <style>
         .layer-pop{
             margin-top: 40px;
