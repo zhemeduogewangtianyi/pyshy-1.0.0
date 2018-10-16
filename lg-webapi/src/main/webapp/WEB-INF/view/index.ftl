@@ -71,24 +71,24 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//sys/2018/07/17/p_dqwkyjjg1svn09nd01tm2cmeunn2216h.jpg!originoo" alt="...">
-                <div class="carousel-caption">
-                    ...
-                </div>
-            </div>
-            <div class="item">
-                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//28/2018/06/06/p_9bybe4rqzty1ms5jouvtbnma8u3t0jq7.jpg!contest" alt="...">
-                <div class="carousel-caption">
-                    ...
-                </div>
-            </div>
-            <div class="item">
-                <img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//originoograde/ExcellentPicture/2924/20180609/4qbdl8pzlf3s8o7hmncx5qmdvy1nuv6u_BVS-P0041648.jpg!style1024" alt="...">
-                <div class="carousel-caption">
-                    ...
-                </div>
-            </div>
+            <#--<div class="item active">-->
+                <#--<img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//sys/2018/07/17/p_dqwkyjjg1svn09nd01tm2cmeunn2216h.jpg!originoo" alt="...">-->
+                <#--<div class="carousel-caption">-->
+                    <#--...-->
+                <#--</div>-->
+            <#--</div>-->
+            <#--<div class="item">-->
+                <#--<img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//28/2018/06/06/p_9bybe4rqzty1ms5jouvtbnma8u3t0jq7.jpg!contest" alt="...">-->
+                <#--<div class="carousel-caption">-->
+                    <#--...-->
+                <#--</div>-->
+            <#--</div>-->
+            <#--<div class="item">-->
+                <#--<img style="width: 100%;height: 750px" src="http://originoo-1.b0.upaiyun.com//originoograde/ExcellentPicture/2924/20180609/4qbdl8pzlf3s8o7hmncx5qmdvy1nuv6u_BVS-P0041648.jpg!style1024" alt="...">-->
+                <#--<div class="carousel-caption">-->
+                    <#--...-->
+                <#--</div>-->
+            <#--</div>-->
         </div>
 
         <!-- Controls -->
@@ -263,5 +263,33 @@
             </div>
         </div>
     </footer>
+
+<script>
+    $(function(){
+        queryBanner()
+    })
+
+    function queryBanner(){
+        $.ajax({
+           type : 'get',
+            url : '/queryBanner',
+           data : {'limit' : '5','offset' : '0','order':'asc'},
+           success : function(data){
+               var str = "";
+           for(var i = 0 ; i < data.length ; i++){
+               if(i == 0) {
+                   str += "<div class=\"item active\">";
+               }else{
+                   str += "<div class=\"item\">";
+               }
+               str += "<img style='width: 100%;height: 750px' src='data:image/jpeg;base64," + data[i].picture + "' alt=''>";
+               str += "<div class=\"carousel-caption\">";
+               str += "</div> </div>";
+           }
+               $('.carousel-inner').html(str);
+           }
+        });
+    }
+</script>
 </body>
 </html>
