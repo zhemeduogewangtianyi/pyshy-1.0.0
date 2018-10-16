@@ -35,6 +35,12 @@
 			<groupId>com.yyhy</groupId>
 			<artifactId>pyshy-service</artifactId>
 			<version>${pyshy.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.yyhy</groupId>
+					<artifactId>pyshy-dao</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

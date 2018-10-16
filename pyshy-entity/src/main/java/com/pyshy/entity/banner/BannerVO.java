@@ -1,9 +1,10 @@
 package com.pyshy.entity.banner;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Date;
 
-public class BannerVO {
+public class BannerVO implements Serializable{
 
     /** 主键ID */
     private Long id;

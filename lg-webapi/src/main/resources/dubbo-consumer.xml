@@ -4,13 +4,9 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--配置服务名称-->
-    <dubbo:application name="provider-app" />
+    <dubbo:application name="comsumer-app" />
     <!--配置服务注册中心，dubbo不仅仅支持zookeeper-->
     <dubbo:registry address="zookeeper://120.79.67.143:2181" />
-
-    <dubbo:protocol name="dubbo" port="20880" />
-    <!--声明对外暴露的服务-->
-    <dubbo:service interface="com.pyshy.service.banner.BannerService" ref="bannerService" timeout="10000"/>
-
-    <bean id="bannerService" class="com.pyshy.service.banner.impl.BannerServiceImpl"/>
+    <!--声明服务接口-->
+    <dubbo:reference interface="com.pyshy.service.banner.BannerService" id="bannerService" />
 </beans>
