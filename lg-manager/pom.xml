@@ -30,17 +30,13 @@
 			<version>${pyshy.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.yyhy</groupId>
-			<artifactId>pyshy-common</artifactId>
-			<version>${pyshy.version}</version>
-		</dependency>
-
 		<!-- freemark -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
+
+
 
 	</dependencies>
 

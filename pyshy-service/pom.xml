@@ -42,6 +42,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!--引入zookeeper客户端-->
         <dependency>
             <groupId>com.github.sgroschupf</groupId>

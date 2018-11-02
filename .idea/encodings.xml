@@ -3,11 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lg-manager" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lg-manager/src/main/java/com/pyshy/lgmanager/TestArray.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lg-webapi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lg-webapi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lg-webapi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lg-webapi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lgwebapi" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pyshy-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pyshy-dao" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pyshy-entity" charset="UTF-8" />
